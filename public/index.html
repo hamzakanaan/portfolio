@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        :root {
+            /* Dark theme (default) */
+            --primary-gradient: linear-gradient(45deg, #5B8DEF, #42E2B8, #FF8FAB);
+            --bg-dark: #000000;
+            --bg-gradient: linear-gradient(135deg, #000000, #111111);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --nav-bg: rgba(0, 0, 0, 0.8);
+            --card-bg: rgba(10, 10, 10, 0.95);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --tag-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Light theme */
+        :root[data-theme="light"] {
+            --bg-dark: #ffffff;
+            --bg-gradient: linear-gradient(135deg, #f8f9fa, #ffffff);
+            --glass-bg: rgba(0, 0, 0, 0.05);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --tag-bg: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 10%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        /* Cover Section */
+        .cover {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            background: var(--bg-gradient);
+        }
+
+        .intro-text {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .name {
+            font-size: 4.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-button {
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-button:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .social-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .social-button:hover::after {
+            transform: translateX(100%);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 10%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Experience Section */
+        .experience {
+            padding: 8rem 10% 6rem 10%;
+            background: var(--bg-dark);
+            display: flex;
+            gap: 4rem;
+        }
+
+        .company-tabs {
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .section-title {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -0.5rem;
+            width: 2rem;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .section-title:hover::after {
+            width: 100%;
+        }
+
+        .company-tab {
+            padding: 0;
+            color: var(--text-secondary);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-align: left;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .company-tab::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%) scaleX(0);
+            width: 3px;
+            height: 0.8em;
+            background: var(--primary-gradient);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+
+        .company-tab.active::before {
+            transform: translateY(-50%) scaleX(1);
+        }
+
+        .company-tab.active {
+            color: var(--text-primary);
+            opacity: 1;
+            background: transparent;
+        }
+
+        .experience-content {
+            flex: 1;
+            padding-top: 3.5rem;
+        }
+
+        .job-content {
+            display: none;
+        }
+
+        .job-content.active {
+            display: block;
+        }
+
+        .job-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .job-title {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .job-company {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            opacity: 0.5;
+        }
+
+        .job-duration {
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            opacity: 0.5;
+            margin-top: 0.25rem;
+        }
+
+        .job-description {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .job-description li {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            padding-left: 1.25rem;
+            position: relative;
+            line-height: 1.6;
+            opacity: 0.5;
+        }
+
+        .job-description li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--text-primary);
+            opacity: 0.5;
+        }
+
+        .education {
+            padding: 8rem 10% 6rem 10%;
+            position: relative;
+            background: var(--bg-dark);
+        }
+
+        .education::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: var(--glass-border);
+            opacity: 0.5;
+        }
+
+        .education-item {
+            margin-bottom: 4rem;
+            position: relative;
+            padding-left: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .education-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-primary);
+            opacity: 0.5;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .education-item:hover::before {
+            transform: scale(1.5);
+            background: var(--primary-gradient);
+        }
+
+        .education-header {
+            margin-bottom: 1.25rem;
+        }
+
+        .education-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .education-location {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            opacity: 0.5;
+            margin-bottom: 0.25rem;
+        }
+
+        .education-duration {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            opacity: 0.5;
+        }
+
+        .education-description {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .education-description li {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            opacity: 0.5;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 8rem 10% 6rem 10%;
+            background: var(--bg-gradient);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: transparent;
+            position: relative;
+            transition: transform 0.3s ease;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            filter: brightness(1.1) contrast(1.1);
+            transition: transform 0.5s ease;
+        }
+
+        .project-content {
+            padding: 0;
+        }
+
+        .project-title {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 0.75rem 0 0.5rem 0;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .project-tag {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .project-tag:not(:last-child)::after {
+            content: "•";
+            margin-left: 0.5rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .project-link:hover {
+            border-color: var(--text-secondary);
+        }
+
+        @media (max-width: 1200px) {
+            .project-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Say Hi Arrow */
+        .say-hi-container {
+            padding: 0 10%;
+            background: var(--bg-dark);
+        }
+
+        .say-hi {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .say-hi:hover {
+            color: var(--text-primary);
+            transform: translateX(10px);
+            opacity: 1;
+        }
+
+        .arrow {
+            font-size: 1.2rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 8rem 10% 6rem 10%;
+            background: var(--bg-dark);
+            text-align: center;
+        }
+
+        .contact .social-links {
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .contact .section-title {
+            margin-bottom: 1rem;
+        }
+
+        /* Theme toggle animation */
+        #theme-toggle {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #theme-toggle:hover {
+            transform: rotate(45deg);
+        }
+
+        /* Section Separators */
+        .experience, .projects, .contact {
+            position: relative;
+        }
+
+        .experience::before, .projects::before, .contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: var(--glass-border);
+            opacity: 0.5;
+        }
+
+        .section-title {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        /* Improved mobile responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: var(--nav-bg);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+                z-index: 1000;
+                cursor: pointer;
+                padding: 0.5rem;
+            }
+
+            .experience {
+                flex-direction: column;
+                gap: 2rem;
+                padding: 6rem 5% 4rem 5%;
+            }
+
+            .company-tabs {
+                width: 100%;
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 1rem;
+                gap: 1rem;
+            }
+
+            .company-tab {
+                white-space: nowrap;
+                padding: 0.5rem 1rem;
+            }
+
+            .experience-content {
+                padding-top: 2rem;
+            }
+
+            .name {
+                font-size: 3rem;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        /* Enhanced hover effects */
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-image {
+            transition: transform 0.5s ease;
+        }
+
+        /* Enhanced education section */
+        .education-item:hover::before {
+            transform: scale(1.5);
+            background: var(--primary-gradient);
+        }
+
+        /* Mobile menu button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="logo">DR.</a>
+        <button class="menu-toggle">☰</button>
+        <div class="nav-links">
+            <a href="#projects">Projects</a>
+            <a href="#experience">Resume</a>
+            <a href="#contact">Contact</a>
+            <a href="#" id="theme-toggle">🌞</a>
+        </div>
+    </nav>
+
+    <!-- Cover Section -->
+    <section class="cover">
+        <p class="intro-text">Hey, I'm</p>
+        <h1 class="name">Darlene Robertson</h1>
+        <p class="description">I'm a software engineer based in Toronto, Canada and also a communication and journalism student. I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between. I have been freelancing for a year now while studying at the university and I've manage to gain a decent amount of experience and valuable knowledge from all different kinds of fields throughout my projects/work.</p>
+        
+        <div class="social-links">
+            <a href="mailto:your.email@example.com" class="social-button">
+                ✉️ Send an email
+            </a>
+            <a href="https://linkedin.com/in/yourprofile" class="social-button">
+                💼 LinkedIn
+            </a>
+            <a href="https://upwork.com/yourprofile" class="social-button">
+                💻 Upwork
+            </a>
+            <a href="https://github.com/yourusername" class="social-button">
+                🐱 Github
+            </a>
+        </div>
+    </section>
+
+    <!-- Say Hi Section -->
+    <div class="say-hi-container">
+        <a href="#contact" class="say-hi">Say hi <span class="arrow">→</span></a>
+    </div>
+
+    <!-- Experience Section -->
+    <section class="experience" id="experience">
+        <div class="company-tabs">
+            <h2 class="section-title">EXPERIENCE</h2>
+            <button class="company-tab active" data-company="selfbook">Selfbook</button>
+            <button class="company-tab" data-company="wevoz">Wevoz</button>
+            <button class="company-tab" data-company="freebeings">FreeBeings</button>
+            <button class="company-tab" data-company="tdf">TDF</button>
+            <button class="company-tab" data-company="upwork">Upwork</button>
+            <button class="company-tab" data-company="shopify">Shopify</button>
+        </div>
+
+        <div class="experience-content">
+            <!-- Selfbook -->
+            <div class="job-content active" data-company="selfbook">
+                <div class="job-header">
+                    <h3 class="job-title">Software Developer (Remote)</h3>
+                    <p class="job-company">Selfbook • US • New York</p>
+                    <p class="job-duration">Jun 2021 - Present</p>
+                </div>
+                <ul class="job-description">
+                    <li>Developing screens and UI components for the web application using React and Tailwind</li>
+                    <li>Fixing UI issues and integrating backend APIs with Redux Saga</li>
+                </ul>
+            </div>
+
+            <!-- Wevoz -->
+            <div class="job-content" data-company="wevoz">
+                <div class="job-header">
+                    <h3 class="job-title">Software Developer (Remote)</h3>
+                    <p class="job-company">Wevoz / Italy</p>
+                    <p class="job-duration">Jun 2021 - Present</p>
+                </div>
+                <ul class="job-description">
+                    <li>Developing mobile and web applications using React and React Native.</li>
+                    <li>Developing web scraping tools using Python and Selenium.</li>
+                    <li>Helping with PHP backend tasks and occasionally working with different programming languages.</li>
+                    <li>Consulting on frontend tech stack and integrating multiple external APIs across all platforms.</li>
+                </ul>
+            </div>
+
+            <!-- FreeBeings -->
+            <div class="job-content" data-company="freebeings">
+                <div class="job-header">
+                    <h3 class="job-title">Frontend Engineer (Contractor)</h3>
+                    <p class="job-company">FreeBeings</p>
+                    <p class="job-duration">Mar 2021 - Aug 2021</p>
+                </div>
+                <ul class="job-description">
+                    <li>Working on web applications and occasionally leading the development team.</li>
+                    <li>Using React and integrating external APIs with the HIVE blockchain.</li>
+                </ul>
+            </div>
+
+            <!-- TDF -->
+            <div class="job-content" data-company="tdf">
+                <div class="job-header">
+                    <h3 class="job-title">Frontend Developer (In Office)</h3>
+                    <p class="job-company">TDF / Algeria</p>
+                    <p class="job-duration">Feb 2021 - Mar 2021</p>
+                </div>
+                <ul class="job-description">
+                    <li>Make landing pages and web applications collaborating with the back-end engineers of the team.</li>
+                    <li>Convert designs into real world applications and pages using multiple front-end technologies.</li>
+                    <li>Frequently working on e-commerce projects.</li>
+                </ul>
+            </div>
+
+            <!-- Upwork -->
+            <div class="job-content" data-company="upwork">
+                <div class="job-header">
+                    <h3 class="job-title">Frontend Engineer (Freelance)</h3>
+                    <p class="job-company">Upwork</p>
+                    <p class="job-duration">May 2021 - Aug 2021</p>
+                </div>
+                <ul class="job-description">
+                    <li>Successfully completed numerous frontend jobs and high successful projects for clients which all have 5-star ratings and great feedback as well as a short amount of time which led me to get verified on Upwork with an 100% job success and more than 40$ earnings and top rated badge.</li>
+                </ul>
+            </div>
+
+            <!-- Shopify -->
+            <div class="job-content" data-company="shopify">
+                <div class="job-header">
+                    <h3 class="job-title">Software Developer (Remote)</h3>
+                    <p class="job-company">Shopify</p>
+                    <p class="job-duration">Nov 2019 - Mar 2020</p>
+                </div>
+                <ul class="job-description">
+                    <li>Worked on various client-side dashboard and payment components from designs and site features using Vue and Next alongside integrating backend APIs.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="education">
+        <h2 class="section-title">EDUCATION</h2>
+        
+        <div class="education-item">
+            <div class="education-header">
+                <h3 class="education-title">Bachelor's degree in communication</h3>
+                <p class="education-location">University of Toronto • Canada</p>
+                <p class="education-duration">2019 - 2021</p>
+            </div>
+            <ul class="education-description">
+                <li>Studied various aspects of communication theory, digital media, and journalism</li>
+                <li>Participated in multiple research projects focused on digital communication</li>
+            </ul>
+        </div>
+
+        <div class="education-item">
+            <div class="education-header">
+                <h3 class="education-title">Certified Fullstack Web Developer</h3>
+                <p class="education-location">ETM Ibn Rochd - H2IT • Canada</p>
+                <p class="education-duration">2019 - 2021</p>
+            </div>
+            <ul class="education-description">
+                <li>Completed intensive training in full-stack web development</li>
+                <li>Developed multiple web applications using modern technologies</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <h2 class="section-title">FEATURED PROJECTS</h2>
+        
+        <div class="project-grid">
+            <!-- First Row -->
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="IntenseProxy" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">IntenseProxy</h3>
+                    <p class="project-description">Proxy provider website including authentication, dashboard and dynamic features</p>
+                    <div class="project-tags">
+                        <span class="project-tag">React</span>
+                        <span class="project-tag">Bootstrap</span>
+                        <span class="project-tag">Styled Components</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">🔗 Live demo</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1507878866276-a947ef722fee?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="SAAPE Coin" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">SAAPE Coin</h3>
+                    <p class="project-description">Site for a BSC based coin called SAAPE</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Vue</span>
+                        <span class="project-tag">React</span>
+                        <span class="project-tag">Netlify</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">🔗 Live demo</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blockchain Explorer -->
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1518893494013-481c1d8ed3fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Blockchain Explorer" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">Blockchain Explorer: Hive Attention Tokens</h3>
+                    <p class="project-description">Blockchain explorer open source project (block explorer) for transactions</p>
+                    <div class="project-tags">
+                        <span class="project-tag">React</span>
+                        <span class="project-tag">TypeScript</span>
+                        <span class="project-tag">GitHub API</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">🔗 Live demo</a>
+                        <a href="#" class="project-link"><img src="/images/github.svg" alt="GitHub" /> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GitProfile -->
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="GitProfile" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">GitProfile</h3>
+                    <p class="project-description">A nice look to GitHub profiles using features such as user stats, authentication using Firebase and charts using the GitHub API</p>
+                    <div class="project-tags">
+                        <span class="project-tag">React</span>
+                        <span class="project-tag">Redux</span>
+                        <span class="project-tag">Firebase</span>
+                        <span class="project-tag">GitHub API</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">🔗 Live demo</a>
+                        <a href="#" class="project-link"><img src="/images/github.svg" alt="GitHub" /> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MovieDB -->
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1487017159836-4e23ece2e4cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="MovieDB" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">MovieDB</h3>
+                    <p class="project-description">TV application, displays different categories of movies/shows (popular, in theaters, trending etc.) alongside a search option using TheMovieDB API for the data</p>
+                    <div class="project-tags">
+                        <span class="project-tag">React.js</span>
+                        <span class="project-tag">Redux</span>
+                        <span class="project-tag">TheMovieDB API</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">🔗 Live demo</a>
+                        <a href="#" class="project-link"><img src="/images/github.svg" alt="GitHub" /> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soundify -->
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Soundify" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">Soundify</h3>
+                    <p class="project-description">Music search application, displays information about artists such as albums, biography, songs that are available on youtube and much more using TheAudioDB API</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Vue.js</span>
+                        <span class="project-tag">Vuex</span>
+                        <span class="project-tag">TheAudioDB API</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">🔗 Live demo</a>
+                        <a href="#" class="project-link"><img src="/images/github.svg" alt="GitHub" /> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example of a new project -->
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Portfolio 2.0" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">Portfolio 2.0</h3>
+                    <p class="project-description">Modern portfolio website with dark/light theme, responsive design, and smooth animations</p>
+                    <div class="project-tags">
+                        <span class="project-tag">HTML5</span>
+                        <span class="project-tag">CSS3</span>
+                        <span class="project-tag">JavaScript</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">🔗 Live demo</a>
+                        <a href="#" class="project-link"><img src="/images/github.svg" alt="GitHub" /> GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2 class="section-title">CONTACT</h2>
+        <div class="social-links">
+            <a href="mailto:your.email@example.com" class="social-button">
+                ✉️ Send an email
+            </a>
+            <a href="https://linkedin.com/in/yourprofile" class="social-button">
+                💼 LinkedIn
+            </a>
+            <a href="https://upwork.com/yourprofile" class="social-button">
+                💻 Upwork
+            </a>
+            <a href="https://github.com/yourusername" class="social-button">
+                🐱 Github
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Darlene Robertson. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme switching functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const root = document.documentElement;
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            // Theme toggle functionality
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = root.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                root.setAttribute('data-theme', newTheme);
+                themeToggle.textContent = newTheme === 'dark' ? '🌞' : '🌙';
+                localStorage.setItem('theme', newTheme);
+            });
+
+            // Mobile menu toggle
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+            });
+
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    menuToggle.textContent = '☰';
+                });
+            });
+
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            root.setAttribute('data-theme', savedTheme);
+            themeToggle.textContent = savedTheme === 'dark' ? '🌞' : '🌙';
+
+            // Company tabs functionality
+            const companyTabs = document.querySelectorAll('.company-tab');
+            const jobContents = document.querySelectorAll('.job-content');
+
+            companyTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    companyTabs.forEach(t => t.classList.remove('active'));
+                    jobContents.forEach(c => c.classList.remove('active'));
+
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    const company = tab.getAttribute('data-company');
+                    document.querySelector(`.job-content[data-company="${company}"]`).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
